@@ -1,12 +1,12 @@
 /*
- * Summer html image map creator
- * http://github.com/summerstyle/summer
+ * Ava image mapper
+ * hhttps://github.com/genosse-c/avaimagemapper
  *
- * Copyright 2016 Vera Lobacheva (http://iamvera.com)
+ * Copyright 2023 Conrad Noack
  * Released under the MIT license
  */
 
-var summerHtmlImageMapCreator = (function() {
+var avaImageMapper = (function() {
     'use strict';
     
     /* Utilities */
@@ -424,7 +424,7 @@ var summerHtmlImageMapCreator = (function() {
         
         // Will moved from the main module
         var localStorageWrapper = (function() {
-            var KEY_NAME = 'SummerHTMLImageMapCreator';
+            var KEY_NAME = 'avaImageMapper';
             
             return {
                 save : function() {
