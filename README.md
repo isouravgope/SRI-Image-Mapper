@@ -1,6 +1,9 @@
-Summer html image map creator
-=============================
-[http://github.com/summerstyle/summer] (http://github.com/summerstyle/summer)
+Ava image map creator
+=====================
+[Ava image map creator](https://github.com/genosse-c/avaimagemapper) is almost entirely based on 
+[http://github.com/summerstyle/summer](http://github.com/summerstyle/summer).
+
+**Ava Imagemap creator** only adds new export formats.
 
 Released under the MIT license
 
