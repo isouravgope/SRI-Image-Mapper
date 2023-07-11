@@ -115,6 +115,29 @@ a:link, a:visited {
     box-shadow: 0 0 1px #222 inset;
     border: 1px solid #FFF;
 }
+/* Hide Dropdowns by Default */
+#nav ul ul {
+	display: none;
+	position: absolute; 
+	top: 60px; /* the height of the main nav */
+}
+	
+/* Display Dropdowns on Hover */
+#nav ul li:hover > ul {
+	display:inherit;
+}
+	
+/* Dropdown */
+#nav ul ul li {
+	width:170px;
+	float:none;
+	display:list-item;
+	position: relative;
+}
+
+/* Change this in order to change the Dropdown symbol */
+li > a:after { content:  ' +'; }
+li > a:only-child:after { content: ''; }
 #coords {
     position: absolute;
     top: 10px;
