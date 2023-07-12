@@ -5,7 +5,13 @@ Ava image map creator
 
 **Ava Imagemap creator** only adds new export formats.
 
-Released under the MIT license
+Released under the GPL3 license
+
+Intro
+----------------
+This app allows to prepare the syntax needed for Avallain Author Coloring and Labelling activities. Use the top menu to create the shapes required. Please note that Labelling only supports rectangular shapes, while Coloring supports all three types (rectangle, circle, polygon).
+
+Images used in this app are never uploaded to any server. Instead, all the data remains on your computer in your browser.
 
 Main
 ----------------
