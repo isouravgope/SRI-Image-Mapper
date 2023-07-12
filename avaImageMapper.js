@@ -683,15 +683,13 @@ function AvaImageMapper() {
 			},
 			getLabellingCode : function(arg) {
 				var html_code = '';
+				var rects = [];
 				if (arg) {
-					if (!objects.length) {
+					if ( !(rects = objects.filter(o => o.constructor.name == 'Rect' )).length) {
 						return '0 objects';
 					}
-					utils.foreachReverse(objects, function(x) {
-					console.log("type: "+constructor.name);
-					    if(x.constructor.name == 'Rect'){
-						    html_code += utils.encode(x.toLabellingString()) + '<br />';
-						}
+					rects.foreachReverse(objects, function(x) {
+					    html_code += utils.encode(x.toLabellingString()) + '<br />';
 					});
 				} else {
 					utils.foreachReverse(objects, function(x) {
@@ -1034,6 +1032,7 @@ function AvaImageMapper() {
 			dropzone.addEventListener('drop', function(e){
 				utils.stopEvent(e);
 				
+				//TODO add file selector button as third option
 				var reader = new FileReader(),
 					file = e.dataTransfer.files[0];
 				

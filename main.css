@@ -250,6 +250,10 @@ li > a:only-child:after { content: ''; }
     box-shadow: rgba(0,0,0,0.2) 0 0 2px 2px;
     position: relative;
 }
+
+#get_image aside{
+  font-size: smaller;
+}
 #logo_get_image {
     margin-bottom: 20px;
 }
