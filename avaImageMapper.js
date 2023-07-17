@@ -792,6 +792,7 @@ function AvaImageMapper() {
 			obj.href ? obj.with_href() : obj.without_href();
 			
 			changedReset();
+			utils.hide(form);
 				
 			e.preventDefault();
 		};
@@ -1159,7 +1160,108 @@ function AvaImageMapper() {
 			};
 		})();
 		
-		
+		/* Use secure file chooser - the third way to load an image */
+    var filechooser_input = (function() {
+      var file_chooser_button = utils.id('file_chooser_button');
+      var data_url = "";
+
+			file_chooser_button.addEventListener('click', function(e){
+				utils.stopEvent(e);
+        getFile();
+      });
+
+      async function getFile(){
+        // If the File System Access API is not supported, use the legacy file apis.
+        if (!('chooseFileSystemEntries' in window || 'showOpenFilePicker' in window)) {
+          const file = await getFileLegacy();
+          if (file) {
+            readFile(file);
+          }
+        } else {
+        // use new File System API
+          try {
+            fileHandle = await getFileHandle();
+          } catch (ex) {
+            if (ex.name === 'AbortError') {
+              return;
+            }
+            const msg = 'An error occured trying to open the file.';
+            console.error(msg, ex);
+            alert(msg);
+          }
+
+          if (!fileHandle) {
+            console.log("no handle");
+            return;
+          }
+          const file = await fileHandle.getFile();
+          readFile(file, fileHandle);
+        }
+
+        last_changed = filechooser_input;
+      };
+
+      function getFileHandle() {
+        // For Chrome 86 and later...
+        if ('showOpenFilePicker' in window) {
+          return window.showOpenFilePicker().then((handles) => handles[0]);
+        }
+        // For Chrome 85 and earlier...
+        return window.chooseFileSystemEntries();
+      }
+
+      function getFileLegacy(){
+        const filePicker = document.getElementById('file_picker');
+
+        return new Promise((resolve, reject) => {
+          filePicker.onchange = (e) => {
+            const file = filePicker.files[0];
+            if (file) {
+              resolve(file);
+              return;
+            }
+            reject(new Error('AbortError'));
+          };
+          filePicker.click();
+        });
+      };
+
+      function readFile(file){
+        if (['image/jpeg', 'image/gif', 'image/png'].includes(file.type)){
+					  utils.removeClass(dropzone, 'error');
+			      var reader = new FileReader(),
+			      data_url = reader.readAsDataURL(file);
+				}
+      };
+
+      function clearDataUrl(){
+        data_url = "";
+      }
+
+			return {
+				clear : clearDataUrl,
+				init : function() {
+					this.clear();
+					clearDataUrl();
+				},
+				test : function() {
+					if(data_url) {
+						utils.removeClass(file_chooser_button, 'error');
+						return true;
+					} else {
+						utils.addClass(file_chooser_button, 'error');
+					};
+					return false;
+				},
+				getImage : function() {
+					return data_url;
+				}
+			};
+
+
+
+    })();
+
 		/* Block init */
 		function init() {
 			utils.hide(loading_indicator);
