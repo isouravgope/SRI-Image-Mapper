@@ -1228,7 +1228,7 @@ function AvaImageMapper() {
 
       function readFile(file){
         if (['image/jpeg', 'image/gif', 'image/png'].includes(file.type)){
-					  utils.removeClass(dropzone, 'error');
+					  utils.removeClass(dropzone, 'error');git c
 			      var reader = new FileReader(),
 			      data_url = reader.readAsDataURL(file);
 				}
