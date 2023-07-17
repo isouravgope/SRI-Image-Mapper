@@ -688,7 +688,7 @@ function AvaImageMapper() {
 					if ( !(rects = objects.filter(o => o.constructor.name == 'Rect' )).length) {
 						return '0 objects';
 					}
-					rects.foreachReverse(objects, function(x) {
+					utils.foreachReverse(rects, function(x) {
 					    html_code += utils.encode(x.toLabellingString()) + '<br />';
 					});
 				} else {
@@ -1091,7 +1091,10 @@ function AvaImageMapper() {
 				url_clear_button = url.parentNode.querySelector('.clear_button');
 			
 			function testUrl(str) {
-				var url_str = utils.trim(str),
+	      const urlObj = new URL(str);
+        urlObj.search = '';
+
+				var url_str = utils.trim(urlObj.toString()),
 					temp_array = url_str.split('.'),
 					ext;
 
@@ -1153,8 +1156,11 @@ function AvaImageMapper() {
 				getImage : function() {
 					var tmp_arr = url.value.split('/');
 						filename = tmp_arr[tmp_arr.length - 1];
+
+          const urlObj = new URL(url.value);
+          urlObj.search = '';
 						
-					return utils.trim(url.value)
+					return urlObj.toString()
 				}
 			};
 		})();
