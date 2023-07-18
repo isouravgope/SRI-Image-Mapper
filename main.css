@@ -301,6 +301,10 @@ li > a:only-child:after { content: ''; }
   vertical-align: text-bottom;
 }
 
+.error#file_chooser_button {
+    border: 2px dashed #F00;
+}
+
 #dropzone {
     border: 2px dashed #999;
     width: 200px;

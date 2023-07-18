@@ -1162,23 +1162,23 @@ function AvaImageMapper() {
 		
 		/* Use secure file chooser - the third way to load an image */
     var filechooser_input = (function() {
-      var file_chooser_button = utils.id('file_chooser_button');
-      var data_url = "";
+      var file_chooser_button = utils.id('file_chooser_button'),
+        data_url = "";
 
 			file_chooser_button.addEventListener('click', function(e){
 				utils.stopEvent(e);
         getFile();
       });
 
-      async function getFile(){
+      async function getFile(fileHandle){
         // If the File System Access API is not supported, use the legacy file apis.
-        if (!('chooseFileSystemEntries' in window || 'showOpenFilePicker' in window)) {
+        if (!('showOpenFilePicker' in window)) {
           const file = await getFileLegacy();
           if (file) {
             readFile(file);
           }
         } else {
-        // use new File System API
+        // use new File System API7
           try {
             fileHandle = await getFileHandle();
           } catch (ex) {
@@ -1197,17 +1197,13 @@ function AvaImageMapper() {
           const file = await fileHandle.getFile();
           readFile(file, fileHandle);
         }
-
-        last_changed = filechooser_input;
       };
 
       function getFileHandle() {
-        // For Chrome 86 and later...
-        if ('showOpenFilePicker' in window) {
-          return window.showOpenFilePicker().then((handles) => handles[0]);
-        }
-        // For Chrome 85 and earlier...
-        return window.chooseFileSystemEntries();
+        let handle = window.showOpenFilePicker().then((handles) => {
+          return handles[0]
+        });
+        return handle;
       }
 
       function getFileLegacy(){
@@ -1228,24 +1224,38 @@ function AvaImageMapper() {
 
       function readFile(file){
         if (['image/jpeg', 'image/gif', 'image/png'].includes(file.type)){
-					  utils.removeClass(dropzone, 'error');git c
-			      var reader = new FileReader(),
-			      data_url = reader.readAsDataURL(file);
+			    utils.removeClass(file_chooser_button, 'error');
+			    filename = file.name;
+
+	        var reader = new FileReader(),
+	        data_url = reader.readAsDataURL(file);
+
+          reader.onload = function(e) {
+			      file_chooser_button.setAttribute("data-data_url", e.target.result);
+			      file_chooser_button.setAttribute("data-filename", file.name);
+			      last_changed = filechooser_input;
+			    };
+				} else {
+				  utils.addClass(file_chooser_button, 'error');
+				  file_chooser_button.removeAttribute("data-data_url");
+			    file_chooser_button.removeAttribute("data-filename");
 				}
       };
 
-      function clearDataUrl(){
-        data_url = "";
+      function clearFilechooser(){
+			  utils.removeClass(file_chooser_button, 'error');
+			  file_chooser_button.removeAttribute("data-data_url");
+		    file_chooser_button.removeAttribute("data-filename");
       }
 
 			return {
-				clear : clearDataUrl,
+				clear : clearFilechooser,
 				init : function() {
 					this.clear();
-					clearDataUrl();
+					clearFilechooser();
 				},
 				test : function() {
-					if(data_url) {
+					if(file_chooser_button.dataset.data_url != "") {
 						utils.removeClass(file_chooser_button, 'error');
 						return true;
 					} else {
@@ -1254,7 +1264,7 @@ function AvaImageMapper() {
 					return false;
 				},
 				getImage : function() {
-					return data_url;
+					return file_chooser_button.dataset.data_url;
 				}
 			};
 
@@ -1283,6 +1293,8 @@ function AvaImageMapper() {
 				app.loadImage(url_input.getImage()).setFilename(filename);
 			} else if (last_changed === drag_n_drop && drag_n_drop.test()) {
 				app.loadImage(drag_n_drop.getImage()).setFilename(filename);
+			} else if (last_changed === filechooser_input && filechooser_input.test()) {
+			  app.loadImage(filechooser_input.getImage()).setFilename(filename);
 			}
 			
 			e.preventDefault();
