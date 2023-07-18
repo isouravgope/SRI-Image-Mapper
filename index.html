@@ -115,7 +115,7 @@
 				<span class="clear_button" title="clear">x</span> 
 				<img src="" alt="preview" id="sm_img" />
 			</div>
-			<aside>Currently only supports loading local images in Firefox</aside>
+			<aside>Currently only supported in Firefox</aside>
 			<b>or</b>
 		</div>
 		<label for="url">type a url</label>
@@ -123,6 +123,8 @@
 			<span class="clear_button" title="clear">x</span>
 			<input type="text" id="url" />
 		</span>
+	  	  <b>or</b>
+    <p>select local file: <button id="file_chooser_button">select<img src="upload.svg"></img></button></p>
 		<button id="button">OK</button>
 	</div>
 </div>
@@ -169,7 +171,7 @@
 		GPL3 License
 	</footer>
 </div>
-
+<input type="file" id="file_picker">
 <script type="text/javascript" src="avaImageMapper.js"></script>
 </body>
 </html>

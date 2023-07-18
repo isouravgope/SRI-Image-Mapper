@@ -792,6 +792,7 @@ function AvaImageMapper() {
 			obj.href ? obj.with_href() : obj.without_href();
 			
 			changedReset();
+			utils.hide(form);
 				
 			e.preventDefault();
 		};
@@ -1165,7 +1166,118 @@ function AvaImageMapper() {
 			};
 		})();
 		
-		
+		/* Use secure file chooser - the third way to load an image */
+    var filechooser_input = (function() {
+      var file_chooser_button = utils.id('file_chooser_button'),
+        data_url = "";
+
+			file_chooser_button.addEventListener('click', function(e){
+				utils.stopEvent(e);
+        getFile();
+      });
+
+      async function getFile(fileHandle){
+        // If the File System Access API is not supported, use the legacy file apis.
+        if (!('showOpenFilePicker' in window)) {
+          const file = await getFileLegacy();
+          if (file) {
+            readFile(file);
+          }
+        } else {
+        // use new File System API7
+          try {
+            fileHandle = await getFileHandle();
+          } catch (ex) {
+            if (ex.name === 'AbortError') {
+              return;
+            }
+            const msg = 'An error occured trying to open the file.';
+            console.error(msg, ex);
+            alert(msg);
+          }
+
+          if (!fileHandle) {
+            console.log("no handle");
+            return;
+          }
+          const file = await fileHandle.getFile();
+          readFile(file, fileHandle);
+        }
+      };
+
+      function getFileHandle() {
+        let handle = window.showOpenFilePicker().then((handles) => {
+          return handles[0]
+        });
+        return handle;
+      }
+
+      function getFileLegacy(){
+        const filePicker = document.getElementById('file_picker');
+
+        return new Promise((resolve, reject) => {
+          filePicker.onchange = (e) => {
+            const file = filePicker.files[0];
+            if (file) {
+              resolve(file);
+              return;
+            }
+            reject(new Error('AbortError'));
+          };
+          filePicker.click();
+        });
+      };
+
+      function readFile(file){
+        if (['image/jpeg', 'image/gif', 'image/png'].includes(file.type)){
+			    utils.removeClass(file_chooser_button, 'error');
+			    filename = file.name;
+
+	        var reader = new FileReader(),
+	        data_url = reader.readAsDataURL(file);
+
+          reader.onload = function(e) {
+			      file_chooser_button.setAttribute("data-data_url", e.target.result);
+			      file_chooser_button.setAttribute("data-filename", file.name);
+			      last_changed = filechooser_input;
+			    };
+				} else {
+				  utils.addClass(file_chooser_button, 'error');
+				  file_chooser_button.removeAttribute("data-data_url");
+			    file_chooser_button.removeAttribute("data-filename");
+				}
+      };
+
+      function clearFilechooser(){
+			  utils.removeClass(file_chooser_button, 'error');
+			  file_chooser_button.removeAttribute("data-data_url");
+		    file_chooser_button.removeAttribute("data-filename");
+      }
+
+			return {
+				clear : clearFilechooser,
+				init : function() {
+					this.clear();
+					clearFilechooser();
+				},
+				test : function() {
+					if(file_chooser_button.dataset.data_url != "") {
+						utils.removeClass(file_chooser_button, 'error');
+						return true;
+					} else {
+						utils.addClass(file_chooser_button, 'error');
+					};
+					return false;
+				},
+				getImage : function() {
+					return file_chooser_button.dataset.data_url;
+				}
+			};
+
+
+
+    })();
+
 		/* Block init */
 		function init() {
 			utils.hide(loading_indicator);
@@ -1187,6 +1299,8 @@ function AvaImageMapper() {
 				app.loadImage(url_input.getImage()).setFilename(filename);
 			} else if (last_changed === drag_n_drop && drag_n_drop.test()) {
 				app.loadImage(drag_n_drop.getImage()).setFilename(filename);
+			} else if (last_changed === filechooser_input && filechooser_input.test()) {
+			  app.loadImage(filechooser_input.getImage()).setFilename(filename);
 			}
 			
 			e.preventDefault();
