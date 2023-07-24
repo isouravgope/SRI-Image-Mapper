@@ -5,7 +5,8 @@
  * Copyright 2016 Vera Lobacheva (http://iamvera.com)
  * Released under the MIT license
  *
- * Adaptations for submenu Copyright 2023 by Conrad Noack (http://minimeta.de)
+ * Adaptations for submenu and file browser
+ * Copyright 2023 by Conrad Noack (http://minimeta.de)
  */
 
 html, body, div, span, applet, object, h1, h2, h3, h4, h5, h6, p, a, em, img, strong, ol, ul, li, dl, dd, dt, form, label, input, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video  {
@@ -303,6 +304,10 @@ li > a:only-child:after { content: ''; }
 
 .error#file_chooser_button {
     border: 2px dashed #F00;
+}
+#selected_filename {
+  font-size: small;
+  font-style: italic;
 }
 
 #dropzone {

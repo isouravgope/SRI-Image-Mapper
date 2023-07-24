@@ -5,7 +5,10 @@
  * Copyright 2013 Vera Lobacheva (summerstyle.ru)
  * Released under the GPL3 (GPL3.txt)
  *
- * Thu May 15 2013 15:15:27 GMT+0400
+ * Copyright 2023 Conrad Noack" changes related to Avallain Author
+ * addition of a file browser button and code cleanup
+ *
+ * Thu May 24 2023
  */
 
 "use strict";
@@ -1033,7 +1036,6 @@ function AvaImageMapper() {
 			dropzone.addEventListener('drop', function(e){
 				utils.stopEvent(e);
 				
-				//TODO add file selector button as third option
 				var reader = new FileReader(),
 					file = e.dataTransfer.files[0];
 				
@@ -1092,26 +1094,20 @@ function AvaImageMapper() {
 				url_clear_button = url.parentNode.querySelector('.clear_button');
 			
 			function testUrl(str) {
-	      const urlObj = new URL(str);
-        urlObj.search = '';
+			  if (!str || str.length < 3)
+			    return false
 
-				var url_str = utils.trim(urlObj.toString()),
-					temp_array = url_str.split('.'),
-					ext;
+			  try {
+          const urlObj = new URL(str);
+          urlObj.search = '';
 
-				if(temp_array.length > 1) {
-					ext = temp_array[temp_array.length-1].toLowerCase();
-					switch (ext) {
-					case 'jpg':
-					case 'jpeg':
-					case 'gif':
-					case 'png':
-						return true;
-						break;
-					};
-				};
-				
-				return false;
+          if (['jpg','jpeg', 'gif', 'png'].includes(urlObj.toString().split('.').pop().toLowerCase())){
+            return true;
+          }
+			  } catch(e){
+          console.log(e);
+          return false;
+			  }
 			}
 			
 			function onUrlChange() {
@@ -1169,6 +1165,7 @@ function AvaImageMapper() {
 		/* Use secure file chooser - the third way to load an image */
     var filechooser_input = (function() {
       var file_chooser_button = utils.id('file_chooser_button'),
+        selected_filename = utils.id('selected_filename'),
         data_url = "";
 
 			file_chooser_button.addEventListener('click', function(e){
@@ -1241,6 +1238,7 @@ function AvaImageMapper() {
 			      file_chooser_button.setAttribute("data-filename", file.name);
 			      last_changed = filechooser_input;
 			    };
+          selected_filename.textContent = file.name;
 				} else {
 				  utils.addClass(file_chooser_button, 'error');
 				  file_chooser_button.removeAttribute("data-data_url");
@@ -1252,6 +1250,7 @@ function AvaImageMapper() {
 			  utils.removeClass(file_chooser_button, 'error');
 			  file_chooser_button.removeAttribute("data-data_url");
 		    file_chooser_button.removeAttribute("data-filename");
+		    selected_filename.textContent = "";
       }
 
 			return {
@@ -1290,17 +1289,14 @@ function AvaImageMapper() {
 		function clear() {
 			drag_n_drop.clear();
 			url_input.clear();
+			filechooser_input.clear();
 			last_changed = null;
 		};
 		
 		/* Selected image loading */
 		function onButtonClick(e) {
-			if (last_changed === url_input && url_input.test()) {
-				app.loadImage(url_input.getImage()).setFilename(filename);
-			} else if (last_changed === drag_n_drop && drag_n_drop.test()) {
-				app.loadImage(drag_n_drop.getImage()).setFilename(filename);
-			} else if (last_changed === filechooser_input && filechooser_input.test()) {
-			  app.loadImage(filechooser_input.getImage()).setFilename(filename);
+			if (last_changed && last_changed.test()){
+			  app.loadImage(last_changed.getImage()).setFilename(filename);
 			}
 			
 			e.preventDefault();
