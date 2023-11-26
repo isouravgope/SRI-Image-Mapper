@@ -13,7 +13,7 @@
 
 "use strict";
 	
-function AvaImageMapper() {
+function ImageMapper() {
 	
 	/* Utilities */
 	var utils = {
@@ -429,14 +429,14 @@ function AvaImageMapper() {
 					obj.areas.push(x.toJSON());
 				});
 				
-				window.localStorage.setItem('AvaImageMapper', JSON.stringify(obj));
+				window.localStorage.setItem('ImageMapper', JSON.stringify(obj));
 			
 				alert('Saved');
 			
 				return this;
 			},
 			loadFromLocalStorage : function() {
-				var str = window.localStorage.getItem('AvaImageMapper'),
+				var str = window.localStorage.getItem('ImageMapper'),
 					obj = JSON.parse(str),
 					areas = obj.areas;
 				
@@ -2526,4 +2526,4 @@ function AvaImageMapper() {
 	
 };
 
-document.addEventListener("DOMContentLoaded", AvaImageMapper, false);
+document.addEventListener("DOMContentLoaded", ImageMapper, false);
