@@ -87,7 +87,7 @@ a:link, a:visited {
   background-color: white;
 }
 #logo a:link, #logo a:visited {
-    color: #32c832;
+    color: #2d5464;
 }
 #logo a:hover {
     color: #FFF;
@@ -447,7 +447,7 @@ li > a:only-child:after { content: ''; }
     margin-bottom: 20px;
 }
 #help .close_button {
-    background: #000 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACbgAAAm4Bt/774AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABKSURBVAiZdc2xDYAwAAPBA0ViiQxKR6hgCMZjCSpTEAkavnxL7yHJgRPNQ0MtXS6Y+jBjlUSSLS9bEqMfSm/O2D+pq6Bi/ZxfqDfkbiIp0Zzd1AAAAABJRU5ErkJggg==) 50% 50% no-repeat;
+    background: #2d5464 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAACbgAAAm4Bt/774AAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAABKSURBVAiZdc2xDYAwAAPBA0ViiQxKR6hgCMZjCSpTEAkavnxL7yHJgRPNQ0MtXS6Y+jBjlUSSLS9bEqMfSm/O2D+pq6Bi/ZxfqDfkbiIp0Zzd1AAAAABJRU5ErkJggg==) 50% 50% no-repeat;
     box-shadow: 0 0 1px #EEE inset;
     border-radius: 2px;
 }
@@ -550,7 +550,7 @@ li > a:only-child:after { content: ''; }
 }
 #svg rect {
     stroke-width: 3px;
-    stroke: #F00;
+    stroke: #e88a11;
     fill: rgba(255,255,255,0.3);
 }
 #svg rect.with_href {
@@ -564,7 +564,7 @@ li > a:only-child:after { content: ''; }
 }
 #svg circle {
     stroke-width: 3px;
-    stroke: #0F0;
+    stroke: #e88a11;
     fill: rgba(255,255,255,0.3);
 }
 #svg circle.with_href {
@@ -574,8 +574,8 @@ li > a:only-child:after { content: ''; }
     fill: rgba(50,200,50,0.3);
 }
 #svg polyline, #svg polygon {
-    stroke-width: 3px;
-    stroke: #00F;
+    stroke-width: 2px;
+    stroke: #e88a11;
     fill: rgba(255,255,255,0.3);
 }
 #svg polygon.with_href {
@@ -585,15 +585,15 @@ li > a:only-child:after { content: ''; }
     fill: rgba(50,200,50,0.3);
 }
 #svg .selected {
-    fill: rgba(50,200,50,0.5) !important;
+    fill: rgba(232, 138, 17, 0.6) !important;
 }
 #svg rect.helper {
     fill: #FFF;
     stroke: #000;
-    stroke-width: 2px;
+    stroke-width: 1px;
 }
 #svg rect.helper:hover {
-    fill: #F00; 
+    fill: #e88a11;
 }
 .edit > #svg rect, .edit > #svg circle, .edit > #svg polygon {
     cursor: move;
