@@ -1,12 +1,5 @@
-Ava image map creator
+SRI Image Mapper
 =====================
-[Ava image map creator](https://github.com/genosse-c/avaimagemapper) is almost entirely based on 
-[http://github.com/summerstyle/summer](http://github.com/summerstyle/summer).
-
-**Ava Imagemap creator** only adds new export formats.
-
-Released under the GPL3 license
-
 Intro
 ----------------
 This app allows to prepare the syntax needed for Avallain Author Coloring and Labelling activities. Use the top menu to create the shapes required. Please note that Labelling only supports rectangular shapes, while Coloring supports all three types (rectangle, circle, polygon).
