@@ -1,4 +1,4 @@
-SRI Image Mapper
+SRI Image Mapper <!-- Sourav(sourav.gope@srinsights.com) -->
 =====================
 Intro
 ----------------
